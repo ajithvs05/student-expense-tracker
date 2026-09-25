@@ -4,6 +4,17 @@ print("================================")
 
 expenses = []
 
+# Load saved expenses
+try:
+    with open("expenses.txt", "r") as file:
+        for line in file:
+            name, amount, category = line.strip().split(",")
+            expenses.append((name, float(amount), category))
+
+except FileNotFoundError:
+    pass
+
+
 while True:
     print("\n1. Add Expense")
     print("2. View Expenses")
@@ -38,7 +49,11 @@ while True:
 
         expenses.append((name, amount, category))
 
-        print("✅ Expense added!")
+        # Save expense
+        with open("expenses.txt", "a") as file:
+            file.write(f"{name},{amount},{category}\n")
+
+        print("✅ Expense saved!")
 
     elif choice == "2":
         print("\n===== YOUR EXPENSES =====")
@@ -72,7 +87,7 @@ while True:
             print(category, "- ₹", total)
 
     elif choice == "5":
-        print("Thank you for using Expense Tracker!")
+        print("\nThank you for using Expense Tracker!")
         break
 
     else:
